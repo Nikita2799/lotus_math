@@ -41,21 +41,22 @@ export class AllCountStructApi {
 
       if (j === 0 || j === 1) {
         console.log(line, "line");
+        console.log(result.balanceList);
 
         overallSum = overallSum + result.balanceList.reduce(add, 0);
         line = line === 2 ? 3 : 2;
         //sum = sum + (result.balanceList.reduce(add, 0) * 10) / 100;
       } else if (j === 2) {
-        overallSum = overallSum + result.balanceList.reduce(add, 0);
-
+        console.log(user!.getDataValue("overallBalance"));
+        console.log(result.balanceList);
         if (user!.getDataValue("overallBalance") > 20000) {
+          overallSum = overallSum + result.balanceList.reduce(add, 0);
           //sum = sum + (result.balanceList.reduce(add, 0) * 5) / 100;
           line = 4;
         } else break;
       } else if (j === 3) {
-        overallSum = overallSum + result.balanceList.reduce(add, 0);
-
         if (user!.getDataValue("overallBalance") >= 100000) {
+          overallSum = overallSum + result.balanceList.reduce(add, 0);
           //sum = sum + (result.balanceList.reduce(add, 0) * 2.5) / 100;
           line = 5;
         } else break;
@@ -71,7 +72,7 @@ export class AllCountStructApi {
       }
     }
     await User.update(
-      { openLine: line, overallSum: overallSum },
+      { openLine: line, overallBalance: overallSum },
       { where: { id: userId } }
     );
     console.log(sum, line, overallSum);

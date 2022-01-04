@@ -60,6 +60,10 @@ export const User = connection.define(
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
+    countMyPeople: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     openLine: {
       type: DataTypes.INTEGER,
       allowNull: true,

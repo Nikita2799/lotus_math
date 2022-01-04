@@ -2,8 +2,6 @@ import { User } from "../../Model/User";
 
 export class MathApi {
   async userMath(userId: number | string) {
-    let sum = 0;
-    let overallSum = 0;
     let sortList: Array<any> = [];
     let listIdFirstLine: Array<any> = [];
 
@@ -14,6 +12,9 @@ export class MathApi {
     //console.log(user, "user");
 
     for (let i = 0; i < user.length; i++) {
+      let sum = 0;
+      let overallSum = 0;
+      let countMyPeople = 0;
       const myUsers = await User.findAll({
         where: { leaderId: user![i].getDataValue("email") },
         attributes: ["balance", "email", "id"],
@@ -38,6 +39,7 @@ export class MathApi {
         //console.log(listIdFirstLine);
         const result = await getLead(listIdFirstLine);
         listIdFirstLine = result.emailList;
+        countMyPeople = countMyPeople + result.emailList.length;
         console.log(
           result,
           `result line leader for user ${user[i].getDataValue("email")}`,
@@ -126,12 +128,12 @@ export class MathApi {
         }
       }
       await User.update(
-        { balance: sum },
+        { bonusBalance: sum, countMyPeople: countMyPeople },
         { where: { id: user[i].getDataValue("id") } }
       );
     }
 
-    return sum;
+    return "sum";
   }
 }
 

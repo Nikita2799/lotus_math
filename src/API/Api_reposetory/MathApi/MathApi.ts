@@ -15,7 +15,7 @@ export class MathApi {
       let sum = 0;
       let overallSum = 0;
       let countMyPeople = 0;
-      if (user![i].getDataValue("balance") === 0) continue;
+
       const myUsers = await User.findAll({
         where: { leaderId: user![i].getDataValue("email") },
         attributes: ["balance", "email", "id"],
@@ -127,6 +127,13 @@ export class MathApi {
           break; //if (user[i].getDataValue("overallBalance") >= 100000) break;
           sum = sum + (result.balanceList.reduce(add, 0) * 0.25) / 100;
         }
+      }
+      if (user![i].getDataValue("balance") === 0) {
+        await User.update(
+          { countMyPeople: countMyPeople },
+          { where: { id: user[i].getDataValue("id") } }
+        );
+        continue;
       }
       await User.update(
         { bonusBalance: sum, countMyPeople: countMyPeople, balance: 0 },

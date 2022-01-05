@@ -15,8 +15,7 @@ export class MathApi {
       let sum = 0;
       let overallSum = 0;
       let countMyPeople = 0;
-      if (user![i].getDataValue("balance") === 0)
-        throw new Error("empty balance");
+      if (user![i].getDataValue("balance") === 0) continue;
       const myUsers = await User.findAll({
         where: { leaderId: user![i].getDataValue("email") },
         attributes: ["balance", "email", "id"],
